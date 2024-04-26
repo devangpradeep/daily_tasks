@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 
 ruby "3.2.2"
@@ -26,19 +28,21 @@ gem "jbuilder"
 
 # gem "bcrypt", "~> 3.1.7"
 
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem "tzinfo-data", platforms: [:windows, :jruby]
 
 gem "bootsnap", require: false
 
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri windows ]
+  gem "debug", platforms: [:mri, :windows]
   gem "rspec-rails", "~> 6.1"
 end
 
 group :development do
   gem "web-console"
+
+  gem "rubocop-shopify", "~> 2.15"
 
   # gem "rack-mini-profiler"
 
