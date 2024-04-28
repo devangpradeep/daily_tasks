@@ -12,9 +12,61 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_426_152_155) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_26_191628) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string("title")
+    t.text("description")
+    t.datetime("created_at", null: false)
+    t.datetime("updated_at", null: false)
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint("task_id", null: false)
+    t.bigint("user_id", null: false)
+    t.text("data")
+    t.datetime("created_at", null: false)
+    t.datetime("updated_at", null: false)
+    t.index(["task_id"], name: "index_comments_on_task_id")
+    t.index(["user_id"], name: "index_comments_on_user_id")
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string("title")
+    t.text("description")
+    t.integer("status")
+    t.integer("priority")
+    t.bigint("category_id", null: false)
+    t.datetime("start_date_time")
+    t.date("deadline")
+    t.bigint("created_by_id", null: false)
+    t.bigint("assigned_to_id", null: false)
+    t.datetime("created_at", null: false)
+    t.datetime("updated_at", null: false)
+    t.index(["assigned_to_id"], name: "index_tasks_on_assigned_to_id")
+    t.index(["category_id"], name: "index_tasks_on_category_id")
+    t.index(["created_by_id"], name: "index_tasks_on_created_by_id")
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string("title")
+    t.text("description")
+    t.bigint("created_by_id", null: false)
+    t.datetime("created_at", null: false)
+    t.datetime("updated_at", null: false)
+    t.index(["created_by_id"], name: "index_teams_on_created_by_id")
+  end
+
+  create_table "teams_users", force: :cascade do |t|
+    t.bigint("team_id", null: false)
+    t.bigint("user_id", null: false)
+    t.datetime("created_at", null: false)
+    t.datetime("updated_at", null: false)
+    t.index(["team_id"], name: "index_teams_users_on_team_id")
+    t.index(["user_id"], name: "index_teams_users_on_user_id")
+  end
 
   create_table "users", force: :cascade do |t|
     t.string("name", null: false)
@@ -28,4 +80,13 @@ ActiveRecord::Schema[7.1].define(version: 20_240_426_152_155) do
     t.index(["email"], name: "index_users_on_email", unique: true)
     t.index(["reset_password_token"], name: "index_users_on_reset_password_token", unique: true)
   end
+
+  add_foreign_key "comments", "tasks"
+  add_foreign_key "comments", "users"
+  add_foreign_key "tasks", "categories"
+  add_foreign_key "tasks", "teams_users", column: "assigned_to_id"
+  add_foreign_key "tasks", "teams_users", column: "created_by_id"
+  add_foreign_key "teams", "users", column: "created_by_id"
+  add_foreign_key "teams_users", "teams"
+  add_foreign_key "teams_users", "users"
 end

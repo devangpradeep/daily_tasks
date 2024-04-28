@@ -8,4 +8,7 @@ class User < ApplicationRecord
     :recoverable,
     :rememberable,
     :validatable
+  has_many :teams_user
+  has_many :teams, through: :teams_user
+  has_many :created_teams, class_name: "Team", foreign_key: "created_by_id"
 end

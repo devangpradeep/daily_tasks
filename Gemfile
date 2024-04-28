@@ -37,6 +37,7 @@ gem "bootsnap", require: false
 group :development, :test do
   gem "debug", platforms: [:mri, :windows]
   gem "rspec-rails", "~> 6.1"
+  gem "shoulda-matchers"
 end
 
 group :development do
