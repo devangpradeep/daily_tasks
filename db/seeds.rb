@@ -1,11 +1,47 @@
 # frozen_string_literal: true
 
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+10.times do
+  User.create!(
+    name: Faker::Name.name,
+    password: "password",
+    email: "#{Faker::Name.first_name.downcase}@gmail.com",
+  )
+end
+
+5.times do
+  Team.create!(
+    title: Faker::Company.name,
+    description: Faker::Lorem.sentence(word_count: 6),
+    created_by_id: rand(1..10),
+    user_ids: [
+      rand(1..10), rand(1..10), rand(1..10),
+    ],
+  )
+end
+
+["Project", "Meeting", "Deadline", "Report", "Email"].each do |category_name|
+  Category.create!(title: category_name, description: Faker::Lorem.sentence(word_count: 6))
+end
+
+5.times do
+  Task.create!(
+    title: Faker::Company.bs,
+    description: Faker::Lorem.sentence,
+    status: rand(0..2),
+    priority: rand(0..3),
+    category_id: rand(1..5),
+    deadline: Date.tomorrow,
+    created_by_id: rand(1..10),
+    assigned_to_id: rand(1..10),
+  )
+end
+
+20.times do
+  Comment.create!(
+    task_id: rand(1..5),
+    user_id: rand(1..10),
+    data: Faker::Lorem.sentence,
+  )
+end
+
+puts "Seeded successfully"

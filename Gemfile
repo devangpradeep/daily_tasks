@@ -45,6 +45,8 @@ group :development do
 
   gem "rubocop-shopify", "~> 2.15"
 
+  gem "faker", "~> 3.3"
+
   # gem "rack-mini-profiler"
 
   # gem "spring"
