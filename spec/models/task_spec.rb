@@ -9,6 +9,8 @@ RSpec.describe(Task, type: :model) do
     it { is_expected.to(belong_to(:created_by)) }
 
     it { is_expected.to(belong_to(:assigned_to)) }
+
+    it { is_expected.to(have_many(:comments)) }
   end
 
   describe "Enums" do
